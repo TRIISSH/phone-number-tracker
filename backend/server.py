@@ -55,6 +55,7 @@ class PhoneLocation(BaseModel):
     timezone: Optional[List[str]] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    telecom_circle: Optional[str] = None
 
 class PhoneLookupResponse(BaseModel):
     valid: bool
