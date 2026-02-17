@@ -2,23 +2,17 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Phone, 
-  Globe, 
   Shield, 
   BookOpen, 
   X, 
   AlertTriangle,
   Terminal,
-  Wifi,
   MapPin,
-  Clock,
   History,
-  ChevronRight,
   Lock,
-  Eye,
-  Server
+  Eye
 } from "lucide-react";
 import { PhoneTracker } from "@/components/PhoneTracker";
-import { IPTracker } from "@/components/IPTracker";
 import { EducationalContent } from "@/components/EducationalContent";
 import { LookupHistory } from "@/components/LookupHistory";
 
@@ -28,7 +22,6 @@ export default function HomePage() {
 
   const tabs = [
     { id: "phone", label: "Phone Tracker", icon: Phone },
-    { id: "ip", label: "IP Locator", icon: Globe },
     { id: "education", label: "Learn", icon: BookOpen },
     { id: "history", label: "History", icon: History },
   ];
@@ -91,8 +84,8 @@ export default function HomePage() {
             </h1>
             
             <p className="font-primary text-base sm:text-lg text-[#888888] max-w-2xl mb-8">
-              Learn how phone number tracking and IP geolocation work in real-world 
-              cybersecurity scenarios. Understand the technology to protect yourself.
+              Learn how phone number tracking works in real-world cybersecurity scenarios. 
+              Get exact locations with GPS coordinates displayed on an interactive map.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -105,8 +98,8 @@ export default function HomePage() {
                 <span>EDUCATIONAL USE ONLY</span>
               </div>
               <div className="flex items-center gap-2 text-[#ff0055] font-primary text-xs">
-                <Eye className="w-4 h-4" />
-                <span>PRIVACY AWARENESS</span>
+                <MapPin className="w-4 h-4" />
+                <span>GPS COORDINATES</span>
               </div>
             </div>
           </motion.div>
@@ -142,7 +135,6 @@ export default function HomePage() {
             transition={{ duration: 0.3 }}
           >
             {activeTab === "phone" && <PhoneTracker />}
-            {activeTab === "ip" && <IPTracker />}
             {activeTab === "education" && <EducationalContent />}
             {activeTab === "history" && <LookupHistory />}
           </motion.div>
