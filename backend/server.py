@@ -53,6 +53,8 @@ class PhoneLocation(BaseModel):
     region: Optional[str] = None
     city: Optional[str] = None
     timezone: Optional[List[str]] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class PhoneLookupResponse(BaseModel):
     valid: bool
@@ -117,6 +119,135 @@ def get_number_type_string(num_type: int) -> str:
         99: "UNKNOWN"
     }
     return type_map.get(num_type, "UNKNOWN")
+
+# Country coordinates (capital cities as approximate center)
+COUNTRY_COORDINATES = {
+    "IN": {"lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},  # India
+    "US": {"lat": 38.9072, "lon": -77.0369, "city": "Washington D.C."},  # USA
+    "GB": {"lat": 51.5074, "lon": -0.1278, "city": "London"},  # UK
+    "DE": {"lat": 52.5200, "lon": 13.4050, "city": "Berlin"},  # Germany
+    "FR": {"lat": 48.8566, "lon": 2.3522, "city": "Paris"},  # France
+    "JP": {"lat": 35.6762, "lon": 139.6503, "city": "Tokyo"},  # Japan
+    "CN": {"lat": 39.9042, "lon": 116.4074, "city": "Beijing"},  # China
+    "AU": {"lat": -35.2809, "lon": 149.1300, "city": "Canberra"},  # Australia
+    "CA": {"lat": 45.4215, "lon": -75.6972, "city": "Ottawa"},  # Canada
+    "BR": {"lat": -15.7975, "lon": -47.8919, "city": "Brasília"},  # Brazil
+    "RU": {"lat": 55.7558, "lon": 37.6173, "city": "Moscow"},  # Russia
+    "IT": {"lat": 41.9028, "lon": 12.4964, "city": "Rome"},  # Italy
+    "ES": {"lat": 40.4168, "lon": -3.7038, "city": "Madrid"},  # Spain
+    "MX": {"lat": 19.4326, "lon": -99.1332, "city": "Mexico City"},  # Mexico
+    "KR": {"lat": 37.5665, "lon": 126.9780, "city": "Seoul"},  # South Korea
+    "SA": {"lat": 24.7136, "lon": 46.6753, "city": "Riyadh"},  # Saudi Arabia
+    "AE": {"lat": 24.4539, "lon": 54.3773, "city": "Abu Dhabi"},  # UAE
+    "SG": {"lat": 1.3521, "lon": 103.8198, "city": "Singapore"},  # Singapore
+    "NL": {"lat": 52.3676, "lon": 4.9041, "city": "Amsterdam"},  # Netherlands
+    "CH": {"lat": 46.9480, "lon": 7.4474, "city": "Bern"},  # Switzerland
+    "SE": {"lat": 59.3293, "lon": 18.0686, "city": "Stockholm"},  # Sweden
+    "PL": {"lat": 52.2297, "lon": 21.0122, "city": "Warsaw"},  # Poland
+    "TH": {"lat": 13.7563, "lon": 100.5018, "city": "Bangkok"},  # Thailand
+    "ID": {"lat": -6.2088, "lon": 106.8456, "city": "Jakarta"},  # Indonesia
+    "PH": {"lat": 14.5995, "lon": 120.9842, "city": "Manila"},  # Philippines
+    "MY": {"lat": 3.1390, "lon": 101.6869, "city": "Kuala Lumpur"},  # Malaysia
+    "VN": {"lat": 21.0285, "lon": 105.8542, "city": "Hanoi"},  # Vietnam
+    "PK": {"lat": 33.6844, "lon": 73.0479, "city": "Islamabad"},  # Pakistan
+    "BD": {"lat": 23.8103, "lon": 90.4125, "city": "Dhaka"},  # Bangladesh
+    "NG": {"lat": 9.0765, "lon": 7.3986, "city": "Abuja"},  # Nigeria
+    "EG": {"lat": 30.0444, "lon": 31.2357, "city": "Cairo"},  # Egypt
+    "ZA": {"lat": -25.7479, "lon": 28.2293, "city": "Pretoria"},  # South Africa
+    "KE": {"lat": -1.2921, "lon": 36.8219, "city": "Nairobi"},  # Kenya
+    "TR": {"lat": 39.9334, "lon": 32.8597, "city": "Ankara"},  # Turkey
+    "IL": {"lat": 31.7683, "lon": 35.2137, "city": "Jerusalem"},  # Israel
+    "AR": {"lat": -34.6037, "lon": -58.3816, "city": "Buenos Aires"},  # Argentina
+    "CL": {"lat": -33.4489, "lon": -70.6693, "city": "Santiago"},  # Chile
+    "CO": {"lat": 4.7110, "lon": -74.0721, "city": "Bogotá"},  # Colombia
+    "NZ": {"lat": -41.2865, "lon": 174.7762, "city": "Wellington"},  # New Zealand
+    "IE": {"lat": 53.3498, "lon": -6.2603, "city": "Dublin"},  # Ireland
+    "PT": {"lat": 38.7223, "lon": -9.1393, "city": "Lisbon"},  # Portugal
+    "GR": {"lat": 37.9838, "lon": 23.7275, "city": "Athens"},  # Greece
+    "AT": {"lat": 48.2082, "lon": 16.3738, "city": "Vienna"},  # Austria
+    "BE": {"lat": 50.8503, "lon": 4.3517, "city": "Brussels"},  # Belgium
+    "DK": {"lat": 55.6761, "lon": 12.5683, "city": "Copenhagen"},  # Denmark
+    "FI": {"lat": 60.1699, "lon": 24.9384, "city": "Helsinki"},  # Finland
+    "NO": {"lat": 59.9139, "lon": 10.7522, "city": "Oslo"},  # Norway
+    "CZ": {"lat": 50.0755, "lon": 14.4378, "city": "Prague"},  # Czech Republic
+    "HU": {"lat": 47.4979, "lon": 19.0402, "city": "Budapest"},  # Hungary
+    "RO": {"lat": 44.4268, "lon": 26.1025, "city": "Bucharest"},  # Romania
+    "UA": {"lat": 50.4501, "lon": 30.5234, "city": "Kyiv"},  # Ukraine
+}
+
+# Indian state coordinates for more precise location
+INDIAN_STATE_COORDINATES = {
+    "Delhi": {"lat": 28.6139, "lon": 77.2090},
+    "Mumbai": {"lat": 19.0760, "lon": 72.8777},
+    "Maharashtra": {"lat": 19.0760, "lon": 72.8777},
+    "Karnataka": {"lat": 12.9716, "lon": 77.5946},
+    "Bangalore": {"lat": 12.9716, "lon": 77.5946},
+    "Tamil Nadu": {"lat": 13.0827, "lon": 80.2707},
+    "Chennai": {"lat": 13.0827, "lon": 80.2707},
+    "West Bengal": {"lat": 22.5726, "lon": 88.3639},
+    "Kolkata": {"lat": 22.5726, "lon": 88.3639},
+    "Gujarat": {"lat": 23.0225, "lon": 72.5714},
+    "Ahmedabad": {"lat": 23.0225, "lon": 72.5714},
+    "Rajasthan": {"lat": 26.9124, "lon": 75.7873},
+    "Jaipur": {"lat": 26.9124, "lon": 75.7873},
+    "Uttar Pradesh": {"lat": 26.8467, "lon": 80.9462},
+    "Lucknow": {"lat": 26.8467, "lon": 80.9462},
+    "Punjab": {"lat": 30.7333, "lon": 76.7794},
+    "Chandigarh": {"lat": 30.7333, "lon": 76.7794},
+    "Haryana": {"lat": 28.4595, "lon": 77.0266},
+    "Gurgaon": {"lat": 28.4595, "lon": 77.0266},
+    "Kerala": {"lat": 8.5241, "lon": 76.9366},
+    "Thiruvananthapuram": {"lat": 8.5241, "lon": 76.9366},
+    "Telangana": {"lat": 17.3850, "lon": 78.4867},
+    "Hyderabad": {"lat": 17.3850, "lon": 78.4867},
+    "Andhra Pradesh": {"lat": 16.5062, "lon": 80.6480},
+    "Bihar": {"lat": 25.5941, "lon": 85.1376},
+    "Patna": {"lat": 25.5941, "lon": 85.1376},
+    "Madhya Pradesh": {"lat": 23.2599, "lon": 77.4126},
+    "Bhopal": {"lat": 23.2599, "lon": 77.4126},
+    "Odisha": {"lat": 20.2961, "lon": 85.8245},
+    "Assam": {"lat": 26.1445, "lon": 91.7362},
+    "Guwahati": {"lat": 26.1445, "lon": 91.7362},
+}
+
+async def get_coordinates_for_location(country_code: str, region: str = None) -> dict:
+    """Get coordinates for a phone location using geocoding."""
+    # First check if we have Indian state coordinates
+    if country_code == "IN" and region:
+        for key, coords in INDIAN_STATE_COORDINATES.items():
+            if key.lower() in region.lower():
+                return {"lat": coords["lat"], "lon": coords["lon"], "city": key}
+    
+    # Check country coordinates
+    if country_code in COUNTRY_COORDINATES:
+        coords = COUNTRY_COORDINATES[country_code]
+        return {"lat": coords["lat"], "lon": coords["lon"], "city": coords.get("city", "")}
+    
+    # Try geocoding with Nominatim as fallback
+    if region:
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(
+                    "https://nominatim.openstreetmap.org/search",
+                    params={
+                        "q": region,
+                        "format": "json",
+                        "limit": 1
+                    },
+                    headers={"User-Agent": "NetStalker-Educational/1.0"},
+                    timeout=5.0
+                )
+                data = response.json()
+                if data and len(data) > 0:
+                    return {
+                        "lat": float(data[0]["lat"]),
+                        "lon": float(data[0]["lon"]),
+                        "city": data[0].get("display_name", "").split(",")[0]
+                    }
+        except Exception as e:
+            logging.warning(f"Geocoding failed: {e}")
+    
+    return {"lat": 0, "lon": 0, "city": ""}
 
 # ==================== Routes ====================
 
