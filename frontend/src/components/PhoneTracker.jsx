@@ -91,8 +91,19 @@ export const PhoneTracker = () => {
 
           <p className="font-primary text-sm text-[#888888] mb-6">
             Enter a phone number to retrieve carrier information, location data, and 
-            <span className="text-[#00ff9d]"> exact GPS coordinates</span> displayed on the map.
+            <span className="text-[#00ff9d]"> GPS coordinates</span> based on telecom circle registration.
           </p>
+
+          {/* Accuracy Notice */}
+          <div className="bg-[#ff005510] border border-[#ff005530] p-3 mb-6 rounded-none">
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-[#ff0055] flex-shrink-0 mt-0.5" />
+              <p className="font-primary text-xs text-[#ff0055]">
+                <strong>ACCURACY NOTE:</strong> Coordinates show telecom circle registration area, 
+                not real-time GPS. Exact live tracking requires device access (illegal without consent).
+              </p>
+            </div>
+          </div>
 
           <form onSubmit={handleLookup} className="space-y-4">
             <div>
