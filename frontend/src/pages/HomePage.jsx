@@ -13,6 +13,7 @@ import {
   Eye
 } from "lucide-react";
 import { PhoneTracker } from "@/components/PhoneTracker";
+import { IPTracker } from "@/components/IPTracker";
 import { EducationalContent } from "@/components/EducationalContent";
 import { LookupHistory } from "@/components/LookupHistory";
 
