@@ -404,18 +404,24 @@ def get_indian_telecom_circle(phone_digits: str) -> dict:
     
     return None
 
-async def get_coordinates_for_location(country_code: str, region: str = None) -> dict:
-    """Get coordinates for a phone location using geocoding."""
-    # First check if we have Indian state coordinates
-    if country_code == "IN" and region:
-        for key, coords in INDIAN_STATE_COORDINATES.items():
-            if key.lower() in region.lower():
-                return {"lat": coords["lat"], "lon": coords["lon"], "city": key}
+async def get_coordinates_for_location(country_code: str, region: str = None, phone_digits: str = None) -> dict:
+    """Get coordinates for a phone location using telecom circle data or geocoding."""
+    
+    # For Indian numbers, use telecom circle mapping for most accurate location
+    if country_code == "IN" and phone_digits:
+        circle_info = get_indian_telecom_circle(phone_digits)
+        if circle_info:
+            return {
+                "lat": circle_info["lat"], 
+                "lon": circle_info["lon"], 
+                "city": circle_info["city"],
+                "circle": circle_info["circle"]
+            }
     
     # Check country coordinates
     if country_code in COUNTRY_COORDINATES:
         coords = COUNTRY_COORDINATES[country_code]
-        return {"lat": coords["lat"], "lon": coords["lon"], "city": coords.get("city", "")}
+        return {"lat": coords["lat"], "lon": coords["lon"], "city": coords.get("city", ""), "circle": None}
     
     # Try geocoding with Nominatim as fallback
     if region:
@@ -436,12 +442,13 @@ async def get_coordinates_for_location(country_code: str, region: str = None) ->
                     return {
                         "lat": float(data[0]["lat"]),
                         "lon": float(data[0]["lon"]),
-                        "city": data[0].get("display_name", "").split(",")[0]
+                        "city": data[0].get("display_name", "").split(",")[0],
+                        "circle": None
                     }
         except Exception as e:
             logging.warning(f"Geocoding failed: {e}")
     
-    return {"lat": 0, "lon": 0, "city": ""}
+    return {"lat": 0, "lon": 0, "city": "", "circle": None}
 
 # ==================== Routes ====================
 
