@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-02-17T02:53:55.657550",
+  "total_tests": 9,
+  "passed_tests": 8,
+  "success_rate": 88.88888888888889,
+  "test_details": [
+    {
+      "test": "Health Check",
+      "success": true,
+      "details": "Status: 200, Response: {'status': 'healthy', 'service': 'NetStalker API'}"
+    },
+    {
+      "test": "Root Endpoint",
+      "success": true,
+      "details": "Status: 200, Message: NetStalker API - Educational Cybersecurity Platform"
+    },
+    {
+      "test": "Phone Lookup (Valid)",
+      "success": true,
+      "details": "Status: 200, Valid: True, Country: United States"
+    },
+    {
+      "test": "Phone Lookup (Invalid)",
+      "success": false,
+      "details": "Status: 422"
+    },
+    {
+      "test": "IP Lookup (Valid)",
+      "success": true,
+      "details": "Status: 200, Success: True, Country: United States"
+    },
+    {
+      "test": "IP Lookup (Invalid)",
+      "success": true,
+      "details": "Status: 200, Success: False, Expected Failure: True"
+    },
+    {
+      "test": "My IP Endpoint",
+      "success": true,
+      "details": "Status: 200, Success: True, IP: 34.170.12.145"
+    },
+    {
+      "test": "Educational Content",
+      "success": true,
+      "details": "Status: 200, Has disclaimer: True, Has topics: True, Topics count: 4"
+    },
+    {
+      "test": "History Endpoint",
+      "success": true,
+      "details": "Status: 200, Is list: True, Count: 6"
+    }
+  ]
+}
