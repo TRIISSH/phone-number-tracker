@@ -175,40 +175,234 @@ COUNTRY_COORDINATES = {
     "UA": {"lat": 50.4501, "lon": 30.5234, "city": "Kyiv"},  # Ukraine
 }
 
-# Indian state coordinates for more precise location
-INDIAN_STATE_COORDINATES = {
-    "Delhi": {"lat": 28.6139, "lon": 77.2090},
-    "Mumbai": {"lat": 19.0760, "lon": 72.8777},
-    "Maharashtra": {"lat": 19.0760, "lon": 72.8777},
-    "Karnataka": {"lat": 12.9716, "lon": 77.5946},
-    "Bangalore": {"lat": 12.9716, "lon": 77.5946},
-    "Tamil Nadu": {"lat": 13.0827, "lon": 80.2707},
-    "Chennai": {"lat": 13.0827, "lon": 80.2707},
-    "West Bengal": {"lat": 22.5726, "lon": 88.3639},
-    "Kolkata": {"lat": 22.5726, "lon": 88.3639},
-    "Gujarat": {"lat": 23.0225, "lon": 72.5714},
-    "Ahmedabad": {"lat": 23.0225, "lon": 72.5714},
-    "Rajasthan": {"lat": 26.9124, "lon": 75.7873},
-    "Jaipur": {"lat": 26.9124, "lon": 75.7873},
-    "Uttar Pradesh": {"lat": 26.8467, "lon": 80.9462},
-    "Lucknow": {"lat": 26.8467, "lon": 80.9462},
-    "Punjab": {"lat": 30.7333, "lon": 76.7794},
-    "Chandigarh": {"lat": 30.7333, "lon": 76.7794},
-    "Haryana": {"lat": 28.4595, "lon": 77.0266},
-    "Gurgaon": {"lat": 28.4595, "lon": 77.0266},
-    "Kerala": {"lat": 8.5241, "lon": 76.9366},
-    "Thiruvananthapuram": {"lat": 8.5241, "lon": 76.9366},
-    "Telangana": {"lat": 17.3850, "lon": 78.4867},
-    "Hyderabad": {"lat": 17.3850, "lon": 78.4867},
-    "Andhra Pradesh": {"lat": 16.5062, "lon": 80.6480},
-    "Bihar": {"lat": 25.5941, "lon": 85.1376},
-    "Patna": {"lat": 25.5941, "lon": 85.1376},
-    "Madhya Pradesh": {"lat": 23.2599, "lon": 77.4126},
-    "Bhopal": {"lat": 23.2599, "lon": 77.4126},
-    "Odisha": {"lat": 20.2961, "lon": 85.8245},
-    "Assam": {"lat": 26.1445, "lon": 91.7362},
-    "Guwahati": {"lat": 26.1445, "lon": 91.7362},
+# Indian Telecom Circles with coordinates (most accurate legal location for Indian mobile numbers)
+INDIAN_TELECOM_CIRCLES = {
+    # Mobile prefixes mapped to telecom circles
+    "70": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "71": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "72": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "73": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "74": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "75": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "76": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "77": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "78": {"circle": "Pan India", "lat": 28.6139, "lon": 77.2090, "city": "Delhi NCR"},
+    "79": {"circle": "Pan India", "lat": 23.0225, "lon": 72.5714, "city": "Gujarat"},
+    
+    # Airtel prefixes by circle
+    "98100": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98101": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98102": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98103": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98104": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98110": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98111": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    "98112": {"circle": "Delhi", "lat": 28.6139, "lon": 77.2090, "city": "New Delhi"},
+    
+    "98200": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98201": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98202": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98203": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98204": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98205": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98206": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98207": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98208": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98209": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98210": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98211": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98212": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98213": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    "98214": {"circle": "Mumbai", "lat": 19.0760, "lon": 72.8777, "city": "Mumbai"},
+    
+    "98300": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "98301": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "98302": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "98303": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "98304": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "98305": {"circle": "Kolkata", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    
+    "98400": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98401": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98402": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98403": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98404": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98405": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98406": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98407": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98408": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98409": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98410": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98411": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98412": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98413": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    "98414": {"circle": "Chennai", "lat": 13.0827, "lon": 80.2707, "city": "Chennai"},
+    
+    "98440": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98441": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98442": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98443": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98444": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98445": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98446": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98447": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98448": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98449": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98450": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98451": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    "98452": {"circle": "Karnataka", "lat": 12.9716, "lon": 77.5946, "city": "Bangalore"},
+    
+    "98490": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    "98491": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    "98492": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    "98493": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    "98494": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    "98495": {"circle": "Andhra Pradesh", "lat": 17.3850, "lon": 78.4867, "city": "Hyderabad"},
+    
+    "98500": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    "98501": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    "98502": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    "98503": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    "98504": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    "98505": {"circle": "Gujarat", "lat": 23.0225, "lon": 72.5714, "city": "Ahmedabad"},
+    
+    "98600": {"circle": "Maharashtra", "lat": 18.5204, "lon": 73.8567, "city": "Pune"},
+    "98601": {"circle": "Maharashtra", "lat": 18.5204, "lon": 73.8567, "city": "Pune"},
+    "98602": {"circle": "Maharashtra", "lat": 18.5204, "lon": 73.8567, "city": "Pune"},
+    "98603": {"circle": "Maharashtra", "lat": 18.5204, "lon": 73.8567, "city": "Pune"},
+    
+    "98700": {"circle": "Punjab", "lat": 30.7333, "lon": 76.7794, "city": "Chandigarh"},
+    "98701": {"circle": "Punjab", "lat": 30.7333, "lon": 76.7794, "city": "Chandigarh"},
+    "98702": {"circle": "Punjab", "lat": 30.7333, "lon": 76.7794, "city": "Chandigarh"},
+    "98703": {"circle": "Punjab", "lat": 30.7333, "lon": 76.7794, "city": "Chandigarh"},
+    
+    "98710": {"circle": "Haryana", "lat": 28.4595, "lon": 77.0266, "city": "Gurgaon"},
+    "98711": {"circle": "Haryana", "lat": 28.4595, "lon": 77.0266, "city": "Gurgaon"},
+    "98712": {"circle": "Haryana", "lat": 28.4595, "lon": 77.0266, "city": "Gurgaon"},
+    "98713": {"circle": "Haryana", "lat": 28.4595, "lon": 77.0266, "city": "Gurgaon"},
+    
+    "98720": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98721": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98722": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98723": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98724": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98725": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98726": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98727": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98728": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    "98729": {"circle": "Rajasthan", "lat": 26.9124, "lon": 75.7873, "city": "Jaipur"},
+    
+    "98760": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    "98761": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    "98762": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    "98763": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    "98764": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    "98765": {"circle": "Uttar Pradesh East", "lat": 26.8467, "lon": 80.9462, "city": "Lucknow"},
+    
+    "98800": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98801": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98802": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98803": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98804": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98805": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98806": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98807": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98808": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98809": {"circle": "Kerala", "lat": 8.5241, "lon": 76.9366, "city": "Thiruvananthapuram"},
+    "98810": {"circle": "Kerala", "lat": 10.8505, "lon": 76.2711, "city": "Palakkad"},
+    "98811": {"circle": "Kerala", "lat": 9.9312, "lon": 76.2673, "city": "Kochi"},
+    "98812": {"circle": "Kerala", "lat": 9.9312, "lon": 76.2673, "city": "Kochi"},
+    
+    "98900": {"circle": "Tamil Nadu", "lat": 11.0168, "lon": 76.9558, "city": "Coimbatore"},
+    "98901": {"circle": "Tamil Nadu", "lat": 11.0168, "lon": 76.9558, "city": "Coimbatore"},
+    "98902": {"circle": "Tamil Nadu", "lat": 11.0168, "lon": 76.9558, "city": "Coimbatore"},
+    "98903": {"circle": "Tamil Nadu", "lat": 9.9252, "lon": 78.1198, "city": "Madurai"},
+    "98904": {"circle": "Tamil Nadu", "lat": 9.9252, "lon": 78.1198, "city": "Madurai"},
+    "98905": {"circle": "Tamil Nadu", "lat": 10.7905, "lon": 78.7047, "city": "Trichy"},
+    "98906": {"circle": "Tamil Nadu", "lat": 10.7905, "lon": 78.7047, "city": "Trichy"},
+    
+    "99000": {"circle": "West Bengal", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "99001": {"circle": "West Bengal", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "99002": {"circle": "West Bengal", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    "99003": {"circle": "West Bengal", "lat": 22.5726, "lon": 88.3639, "city": "Kolkata"},
+    
+    "99100": {"circle": "Bihar", "lat": 25.5941, "lon": 85.1376, "city": "Patna"},
+    "99101": {"circle": "Bihar", "lat": 25.5941, "lon": 85.1376, "city": "Patna"},
+    "99102": {"circle": "Bihar", "lat": 25.5941, "lon": 85.1376, "city": "Patna"},
+    "99103": {"circle": "Bihar", "lat": 25.5941, "lon": 85.1376, "city": "Patna"},
+    "99104": {"circle": "Bihar", "lat": 25.5941, "lon": 85.1376, "city": "Patna"},
+    
+    "99200": {"circle": "Odisha", "lat": 20.2961, "lon": 85.8245, "city": "Bhubaneswar"},
+    "99201": {"circle": "Odisha", "lat": 20.2961, "lon": 85.8245, "city": "Bhubaneswar"},
+    "99202": {"circle": "Odisha", "lat": 20.2961, "lon": 85.8245, "city": "Bhubaneswar"},
+    
+    "99300": {"circle": "Assam", "lat": 26.1445, "lon": 91.7362, "city": "Guwahati"},
+    "99301": {"circle": "Assam", "lat": 26.1445, "lon": 91.7362, "city": "Guwahati"},
+    "99302": {"circle": "Assam", "lat": 26.1445, "lon": 91.7362, "city": "Guwahati"},
+    
+    "99400": {"circle": "Madhya Pradesh", "lat": 23.2599, "lon": 77.4126, "city": "Bhopal"},
+    "99401": {"circle": "Madhya Pradesh", "lat": 23.2599, "lon": 77.4126, "city": "Bhopal"},
+    "99402": {"circle": "Madhya Pradesh", "lat": 22.7196, "lon": 75.8577, "city": "Indore"},
+    "99403": {"circle": "Madhya Pradesh", "lat": 22.7196, "lon": 75.8577, "city": "Indore"},
+    
+    "99500": {"circle": "Uttar Pradesh West", "lat": 28.6692, "lon": 77.4538, "city": "Noida"},
+    "99501": {"circle": "Uttar Pradesh West", "lat": 28.6692, "lon": 77.4538, "city": "Noida"},
+    "99502": {"circle": "Uttar Pradesh West", "lat": 28.6692, "lon": 77.4538, "city": "Noida"},
+    "99503": {"circle": "Uttar Pradesh West", "lat": 27.1767, "lon": 78.0081, "city": "Agra"},
+    "99504": {"circle": "Uttar Pradesh West", "lat": 27.1767, "lon": 78.0081, "city": "Agra"},
+    
+    "99600": {"circle": "Himachal Pradesh", "lat": 31.1048, "lon": 77.1734, "city": "Shimla"},
+    "99601": {"circle": "Himachal Pradesh", "lat": 31.1048, "lon": 77.1734, "city": "Shimla"},
+    
+    "99700": {"circle": "Jammu & Kashmir", "lat": 34.0837, "lon": 74.7973, "city": "Srinagar"},
+    "99701": {"circle": "Jammu & Kashmir", "lat": 34.0837, "lon": 74.7973, "city": "Srinagar"},
+    "99702": {"circle": "Jammu & Kashmir", "lat": 32.7266, "lon": 74.8570, "city": "Jammu"},
+    "99703": {"circle": "Jammu & Kashmir", "lat": 32.7266, "lon": 74.8570, "city": "Jammu"},
+    
+    "99800": {"circle": "North East", "lat": 25.5788, "lon": 91.8933, "city": "Shillong"},
+    "99801": {"circle": "North East", "lat": 25.5788, "lon": 91.8933, "city": "Shillong"},
+    "99802": {"circle": "North East", "lat": 23.8315, "lon": 91.2868, "city": "Agartala"},
+    "99803": {"circle": "North East", "lat": 27.1767, "lon": 94.1254, "city": "Itanagar"},
+    
+    "99900": {"circle": "Jharkhand", "lat": 23.3441, "lon": 85.3096, "city": "Ranchi"},
+    "99901": {"circle": "Jharkhand", "lat": 23.3441, "lon": 85.3096, "city": "Ranchi"},
+    "99902": {"circle": "Jharkhand", "lat": 22.8046, "lon": 86.2029, "city": "Jamshedpur"},
+    "99903": {"circle": "Jharkhand", "lat": 22.8046, "lon": 86.2029, "city": "Jamshedpur"},
+    
+    "99990": {"circle": "Chhattisgarh", "lat": 21.2514, "lon": 81.6296, "city": "Raipur"},
+    "99991": {"circle": "Chhattisgarh", "lat": 21.2514, "lon": 81.6296, "city": "Raipur"},
+    "99992": {"circle": "Chhattisgarh", "lat": 21.2514, "lon": 81.6296, "city": "Raipur"},
 }
+
+def get_indian_telecom_circle(phone_digits: str) -> dict:
+    """Get telecom circle info based on Indian mobile number prefix."""
+    # Remove country code if present
+    if phone_digits.startswith("91"):
+        phone_digits = phone_digits[2:]
+    if phone_digits.startswith("0"):
+        phone_digits = phone_digits[1:]
+    
+    # Try matching 5-digit prefix first (most specific)
+    prefix_5 = phone_digits[:5]
+    if prefix_5 in INDIAN_TELECOM_CIRCLES:
+        return INDIAN_TELECOM_CIRCLES[prefix_5]
+    
+    # Try 4-digit prefix
+    prefix_4 = phone_digits[:4]
+    if prefix_4 in INDIAN_TELECOM_CIRCLES:
+        return INDIAN_TELECOM_CIRCLES[prefix_4]
+    
+    # Try 3-digit prefix
+    prefix_3 = phone_digits[:3]
+    if prefix_3 in INDIAN_TELECOM_CIRCLES:
+        return INDIAN_TELECOM_CIRCLES[prefix_3]
+    
+    # Try 2-digit prefix (for 7x series Jio numbers)
+    prefix_2 = phone_digits[:2]
+    if prefix_2 in INDIAN_TELECOM_CIRCLES:
+        return INDIAN_TELECOM_CIRCLES[prefix_2]
+    
+    return None
 
 async def get_coordinates_for_location(country_code: str, region: str = None) -> dict:
     """Get coordinates for a phone location using geocoding."""
