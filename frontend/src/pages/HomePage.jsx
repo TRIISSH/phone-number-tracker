@@ -137,6 +137,7 @@ export default function HomePage() {
             transition={{ duration: 0.3 }}
           >
             {activeTab === "phone" && <PhoneTracker />}
+            {activeTab === "ip" && <IPTracker />}
             {activeTab === "education" && <EducationalContent />}
             {activeTab === "history" && <LookupHistory />}
           </motion.div>
