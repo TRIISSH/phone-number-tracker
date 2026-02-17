@@ -140,7 +140,7 @@ export const PhoneTracker = () => {
             Try sample numbers:
           </span>
           <div className="flex flex-wrap gap-2 mt-2">
-            {["+1 650 253 0000", "+44 20 7946 0958", "+49 30 123456"].map((num) => (
+            {["+1 650 253 0000", "+91 98765 43210", "+44 20 7946 0958", "+49 172 1234567"].map((num) => (
               <button
                 key={num}
                 onClick={() => setPhoneNumber(num)}
