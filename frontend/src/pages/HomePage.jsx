@@ -22,6 +22,7 @@ export default function HomePage() {
 
   const tabs = [
     { id: "phone", label: "Phone Tracker", icon: Phone },
+    { id: "ip", label: "IP Tracker", icon: MapPin },
     { id: "education", label: "Learn", icon: BookOpen },
     { id: "history", label: "History", icon: History },
   ];
