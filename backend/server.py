@@ -263,8 +263,8 @@ async def health_check():
 @api_router.post("/phone/lookup", response_model=PhoneLookupResponse)
 async def lookup_phone(request: PhoneLookupRequest):
     """
-    Lookup phone number information including carrier and location.
-    Uses phonenumbers library for offline validation and parsing.
+    Lookup phone number information including carrier, location, and coordinates.
+    Uses phonenumbers library for validation and geocoding for coordinates.
     """
     try:
         # Clean the phone number
@@ -277,11 +277,17 @@ async def lookup_phone(request: PhoneLookupRequest):
             else:
                 # Try to parse with + prefix or assume US
                 if not phone_str.startswith('+'):
-                    # Try with US first
-                    try:
-                        parsed = phonenumbers.parse(phone_str, "US")
-                    except:
-                        parsed = phonenumbers.parse("+" + phone_str)
+                    # Try with IN first for Indian numbers (starting with 9, 8, 7, 6)
+                    if phone_str[0] in ['9', '8', '7', '6'] and len(phone_str) == 10:
+                        try:
+                            parsed = phonenumbers.parse(phone_str, "IN")
+                        except:
+                            parsed = phonenumbers.parse(phone_str, "US")
+                    else:
+                        try:
+                            parsed = phonenumbers.parse(phone_str, "US")
+                        except:
+                            parsed = phonenumbers.parse("+" + phone_str)
                 else:
                     parsed = phonenumbers.parse(phone_str)
         except Exception as e:
@@ -314,8 +320,10 @@ async def lookup_phone(request: PhoneLookupRequest):
         timezones = phone_timezone.time_zones_for_number(parsed)
         
         # Get country name
-        from phonenumbers import COUNTRY_CODE_TO_REGION_CODE
         country_name = geocoder.country_name_for_number(parsed, "en")
+        
+        # Get coordinates for the location
+        coords = await get_coordinates_for_location(country_code, location_desc)
         
         # Build response
         carrier_info = None
@@ -326,15 +334,18 @@ async def lookup_phone(request: PhoneLookupRequest):
         location_info = PhoneLocation(
             country=country_name or "Unknown",
             country_code=country_code or "Unknown",
-            region=location_desc if location_desc and location_desc != country_name else None,
-            timezone=list(timezones) if timezones else None
+            region=location_desc if location_desc and location_desc != country_name else coords.get("city"),
+            city=coords.get("city") if coords.get("city") else None,
+            timezone=list(timezones) if timezones else None,
+            latitude=coords.get("lat"),
+            longitude=coords.get("lon")
         )
         
         # Save to history
         history_entry = LookupHistory(
             lookup_type="phone",
             query=phone_str,
-            result_summary=f"Valid: {is_valid}, Country: {country_name}, Carrier: {carrier_name or 'Unknown'}"
+            result_summary=f"Valid: {is_valid}, Country: {country_name}, Carrier: {carrier_name or 'Unknown'}, Coords: {coords.get('lat'):.4f}, {coords.get('lon'):.4f}"
         )
         history_doc = history_entry.model_dump()
         history_doc['timestamp'] = history_doc['timestamp'].isoformat()
