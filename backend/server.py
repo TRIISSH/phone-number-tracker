@@ -524,8 +524,11 @@ async def lookup_phone(request: PhoneLookupRequest):
         # Get country name
         country_name = geocoder.country_name_for_number(parsed, "en")
         
+        # Get phone digits for telecom circle lookup
+        phone_digits = str(parsed.national_number)
+        
         # Get coordinates for the location
-        coords = await get_coordinates_for_location(country_code, location_desc)
+        coords = await get_coordinates_for_location(country_code, location_desc, phone_digits)
         
         # Build response
         carrier_info = None
@@ -540,7 +543,8 @@ async def lookup_phone(request: PhoneLookupRequest):
             city=coords.get("city") if coords.get("city") else None,
             timezone=list(timezones) if timezones else None,
             latitude=coords.get("lat"),
-            longitude=coords.get("lon")
+            longitude=coords.get("lon"),
+            telecom_circle=coords.get("circle")
         )
         
         # Save to history
