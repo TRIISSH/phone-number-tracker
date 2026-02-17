@@ -359,10 +359,19 @@ export const PhoneTracker = () => {
                 </div>
                 {result.location.region && (
                   <div className="data-row bg-[#0a0a0a] p-4 border border-[#222222]">
-                    <span className="data-label block mb-1">Region</span>
+                    <span className="data-label block mb-1">Region/City</span>
                     <span className="data-value flex items-center gap-2 text-lg">
                       <MapPin className="w-5 h-5" />
                       {result.location.region}
+                    </span>
+                  </div>
+                )}
+                {result.location.telecom_circle && (
+                  <div className="data-row bg-[#0a0a0a] p-4 border border-[#ff0055]">
+                    <span className="data-label block mb-1">Telecom Circle</span>
+                    <span className="data-value flex items-center gap-2 text-lg text-[#ff0055]">
+                      <Signal className="w-5 h-5" />
+                      {result.location.telecom_circle}
                     </span>
                   </div>
                 )}
